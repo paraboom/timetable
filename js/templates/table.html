@@ -1,3 +1,31 @@
-<div class="lala">
-	hello, hello
+<div class="calendar">
+	<div class="calendar-date">
+		{{month}}&nbsp;{{year}}
+	</div>
+	<div class="calendar-controls">
+		<span class="calendar-controls-item icon-arrow-left"></span>
+		<span class="calendar-controls-item icon-arrow-right"></span>
+	</div>
+	<table class="calendar-table">
+		<thead>
+			<th>Понедельник</th>
+			<th>Вторник</th>
+			<th>Среда</th>
+			<th>Четверг</th>
+			<th>Пятница</th>
+			<th>Суббота</th>
+			<th>Воскресенье</th>
+		</thead>
+		<tbody>
+			{{#each rows}}
+				<tr class="asdf">
+					{{#each this}}
+						<td class="calendar-item{{#if today}} calendar-item-today{{/if}}">
+							<div class="calendar-item-title">{{value}}</div>
+						</td>
+					{{/each}}
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
 </div>

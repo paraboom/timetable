@@ -1,12 +1,12 @@
-requirejs(['jquery', 'modules/scheduler'], function($, table){
-	console.log($('span').length);
-	console.log('MAIN');
+requirejs(['jquery', 'modules/calendar'], function($, Calendar){
+
+	var calendar;
+
+	calendar = new Calendar({
+		'name': 'Расписание'
+	});
 
 	$(function(){
-		console.log('loaded');
-
-		console.log(table);
-
-		console.log(table.lala());
+		$('.calendar-container').append(calendar.show());
 	});
 });

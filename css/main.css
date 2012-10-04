@@ -1,7 +1,5 @@
+@import url('/css/calendar.css');
+
 body {
 	font-size: 16px;
-}
-
-span {
-	font-size: 400%;
 }

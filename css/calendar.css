@@ -1,0 +1,21 @@
+.calendar-container {
+	padding: 15px;
+}
+
+.calendar-table {
+	border: 1px solid ;
+}
+
+.calendar-controls-item {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.calendar-item-today {
+	background: #e9eff7;
+}
+
+.calendar-item-today .calendar-item-title {
+	color: #2492f2;
+	font-weight: bold;
+}
