@@ -1,4 +1,4 @@
-requirejs(['jquery', 'modules/calendar'], function($, Calendar){
+requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calendar, Lecture){
 
 	var calendar;
 
@@ -8,5 +8,12 @@ requirejs(['jquery', 'modules/calendar'], function($, Calendar){
 
 	$(function(){
 		$('.calendar-container').append(calendar.show());
+
+		calendar.$el.on('dblclick', '.calendar-item', function(evt){
+			evt.preventDefault();
+			Lecture.dialog($(this), function(data){
+				calendar.addItem(new Lecture(data));
+			});
+		});
 	});
 });

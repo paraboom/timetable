@@ -44,6 +44,14 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 
 	Calendar.prototype = {
 		/**
+		 * Добавляем новый элемент в календарь
+		 * @param {Lecture} item Лекция
+		 */
+		addItem: function(item) {
+			console.log(item);
+		},
+
+		/**
 		 * Показывает календарь за предыдущий месяц
 		 */
 		prevMonth: function(){
@@ -102,7 +110,10 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 				}
 
 				// информацию о каждом дне храним в объекте
-				var tmp_obj = {value: tmp_date.getDate()};
+				var tmp_obj = {
+					id: 'c' + year + month + tmp_date.getDate(),
+					value: tmp_date.getDate()
+				};
 				// проверяем сегодняшняя ли это дата
 				if (tmp_date.valueOf() == today.valueOf()) tmp_obj.today = true;
 

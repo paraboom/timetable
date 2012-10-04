@@ -20,7 +20,7 @@
 			{{#each rows}}
 				<tr class="asdf">
 					{{#each this}}
-						<td class="calendar-item{{#if today}} calendar-item-today{{/if}}">
+						<td class="calendar-item{{#if today}} calendar-item-today{{/if}}" data-id="{{id}}">
 							<div class="calendar-item-title">{{value}}</div>
 						</td>
 					{{/each}}
