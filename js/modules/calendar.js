@@ -31,6 +31,9 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 		this.month = (obj.month || obj.month === 0) ? obj.month : new Date().getMonth();
 		this.year = obj.year || new Date().getFullYear();
 
+		// Внутреннее хранилище лекций
+		this.items = {};
+
 		this.$el = $(this.render());
 
 		this.$el.on('click', '.icon-arrow-left', function(){
@@ -45,10 +48,15 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 	Calendar.prototype = {
 		/**
 		 * Добавляем новый элемент в календарь
+		 * @param {String} targetId ID даты
 		 * @param {Lecture} item Лекция
 		 */
-		addItem: function(item) {
-			console.log(item);
+		addItem: function(targetId, item) {
+			if (!this.items[targetId]) {
+				this.items[targetId] = [];
+			}
+			this.items[targetId].push(item);
+			this.$el.find('td[data-id=' + targetId + ']').append(item.render());
 		},
 
 		/**
@@ -116,6 +124,14 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 				};
 				// проверяем сегодняшняя ли это дата
 				if (tmp_date.valueOf() == today.valueOf()) tmp_obj.today = true;
+
+				if (this.items[tmp_obj.id]) {
+					var tmp_html = '';
+					$.each(this.items[tmp_obj.id], function(i, lecture){
+						tmp_html += lecture.render();
+					});
+					tmp_obj.lectures = tmp_html;
+				}
 
 				tmp[cnt].push(tmp_obj);
 

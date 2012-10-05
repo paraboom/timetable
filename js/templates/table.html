@@ -22,6 +22,11 @@
 					{{#each this}}
 						<td class="calendar-item{{#if today}} calendar-item-today{{/if}}" data-id="{{id}}">
 							<div class="calendar-item-title">{{value}}</div>
+							{{#if lectures}}
+								<div class="calendar-lectures">
+									{{{lectures}}}
+								</div>
+							{{/if}}
 						</td>
 					{{/each}}
 				</tr>

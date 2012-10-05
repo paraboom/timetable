@@ -12,7 +12,7 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 		calendar.$el.on('dblclick', '.calendar-item', function(evt){
 			evt.preventDefault();
 			Lecture.dialog($(this), function(data){
-				calendar.addItem(new Lecture(data));
+				calendar.addItem(data.id, new Lecture(data));
 			});
 		});
 	});

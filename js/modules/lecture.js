@@ -6,13 +6,19 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 	 */
 	var Lecture = function(obj){
 		this.title = obj.title || 'Без названия';
+
+		this.$el = $(this.render());
 	};
 
 	/**
 	 * Методы лекций
 	 */
 	Lecture.prototype = {
-
+		render: function(){
+			return lectureViewTmpl({
+				'title': this.title
+			});
+		}
 	};
 
 	Lecture.dialog = function(){
@@ -29,9 +35,11 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 							'title': $(this).val()
 						});
 					}
+					$el.detach();
 				});
 			}
 
+			$el.find('input').val('');
 			$el.data('id', parent.data('id'));
 			parent.append($el);
 		};
