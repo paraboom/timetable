@@ -1,5 +1,11 @@
+@import url('/css/lecture.css');
 @import url('/css/calendar.css');
 
 body {
 	font-size: 16px;
+}
+
+#cal {
+	width: 80%;
+	margin: 0 auto;
 }

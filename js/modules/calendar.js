@@ -1,4 +1,4 @@
-define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
+define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
 
 	var helper = {
 		getDaysInMonth: function(year, month){
@@ -17,7 +17,25 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 			9: 'Октябрь',
 			10: 'Ноябрь',
 			11: 'Декабрь'
-		}
+		},
+		dayNames: [
+			'Воскресенье',
+			'Понедельник',
+			'Вторник',
+			'Среда',
+			'Четверг',
+			'Пятница',
+			'Суббота'
+		],
+		dayNamesShort: [
+			'Вс',
+			'Пн',
+			'Вт',
+			'Ср',
+			'Чт',
+			'Пт',
+			'Сб'
+		]
 	};
 
 	/**
@@ -31,17 +49,23 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 		this.month = (obj.month || obj.month === 0) ? obj.month : new Date().getMonth();
 		this.year = obj.year || new Date().getFullYear();
 
-		// Внутреннее хранилище лекций
+		// Хранилище лекций
 		this.items = {};
 
 		this.$el = $(this.render());
 
-		this.$el.on('click', '.icon-arrow-left', function(){
+		this.$el.on('click', '.icon-caret-left', function(){
 			that.prevMonth();
 		});
 
-		this.$el.on('click', '.icon-arrow-right', function(){
+		this.$el.on('click', '.icon-caret-right', function(){
 			that.nextMonth();
+		});
+
+		this.$el.on('click', '.calendar-controls-today', function(){
+			that.month = new Date().getMonth();
+			that.year = new Date().getFullYear();
+			that.$el.html(that.render());
 		});
 	};
 
@@ -56,7 +80,7 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 				this.items[targetId] = [];
 			}
 			this.items[targetId].push(item);
-			this.$el.find('td[data-id=' + targetId + ']').append(item.render());
+			this.$el.find('td[data-id=' + targetId + ']').append(item.show());
 		},
 
 		/**
@@ -120,18 +144,12 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 				// информацию о каждом дне храним в объекте
 				var tmp_obj = {
 					id: 'c' + year + month + tmp_date.getDate(),
-					value: tmp_date.getDate()
+					// в первую строку впишем название дней недели
+					value: (cnt === 0) ? helper.dayNamesShort[dayNumber] + ', ' + tmp_date.getDate() : tmp_date.getDate(),
+					isWeekend: (dayNumber === 0 || dayNumber === 6)
 				};
 				// проверяем сегодняшняя ли это дата
 				if (tmp_date.valueOf() == today.valueOf()) tmp_obj.today = true;
-
-				if (this.items[tmp_obj.id]) {
-					var tmp_html = '';
-					$.each(this.items[tmp_obj.id], function(i, lecture){
-						tmp_html += lecture.render();
-					});
-					tmp_obj.lectures = tmp_html;
-				}
 
 				tmp[cnt].push(tmp_obj);
 
@@ -145,11 +163,30 @@ define(['jquery', 'hbs!templates/table'], function($, tableTmpl){
 				tmp[cnt].push('');
 			}
 
-			return tableTmpl({
-						'rows': tmp,
-						'month': helper.monthNames[this.month],
-						'year': this.year
-					});
+			var calendarHtml = $(calendarTmpl({
+									'rows': tmp,
+									'month': helper.monthNames[this.month],
+									'year': this.year
+								}));
+
+			// Вставляем лекции
+			for (var key in this.items) {
+				var item = calendarHtml.find('.calendar-item[data-id=' + key + ']');
+				for (i = 0, l = this.items[key].length; i<l; i++) {
+					item.append(this.items[key][i].show());
+				}
+			}
+
+			return calendarHtml;
+		},
+
+		// Сделать что-нибудь с коллекцией лекций
+		itemsCollection: function(callback){
+			for (var key in this.items) {
+				for (i = 0, l = this.items[key].length; i<l; i++) {
+					callback(this.items[key][i]);
+				}
+			}
 		},
 
 		show: function(){

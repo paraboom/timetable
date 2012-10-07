@@ -7,6 +7,8 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 	var Lecture = function(obj){
 		this.title = obj.title || 'Без названия';
 
+		this.id = new Date().valueOf();
+
 		this.$el = $(this.render());
 	};
 
@@ -16,8 +18,21 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 	Lecture.prototype = {
 		render: function(){
 			return lectureViewTmpl({
-				'title': this.title
+				'title': this.title,
+				'id': this.id
 			});
+		},
+
+		show: function(){
+			return this.$el;
+		},
+
+		showHtml: function() {
+			return this.$el[0].outerHTML;
+		},
+
+		activate: function(trigger){
+			this.$el.toggleClass('lecture-active-mode', !!trigger);
 		}
 	};
 
@@ -28,20 +43,23 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 			if (!$el) {
 				$el = $(lectureViewTmpl({}));
 
-				$el.on('blur', 'input', function(){
-					if (callback && $.isFunction(callback)) {
-						callback({
-							'id': $(this).closest('.lecture').data('id'),
-							'title': $(this).val()
-						});
+				$el.on('keypress', 'input', function(evt){
+					evt.stopPropagation();
+					if ((evt.which && evt.which == 13) || !evt.which)  {
+						if (callback && $.isFunction(callback)) {
+							callback({
+								'id': $(this).closest('.lecture').data('id'),
+								'title': $(this).val()
+							});
+						}
+						$el.detach();
 					}
-					$el.detach();
 				});
 			}
 
-			$el.find('input').val('');
 			$el.data('id', parent.data('id'));
 			parent.append($el);
+			$el.find('input').val('').focus();
 		};
 	}();
 

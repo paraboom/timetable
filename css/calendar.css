@@ -1,14 +1,66 @@
 .calendar-container {
-	padding: 15px;
+	position: relative;
+	min-width: 1000px;
 }
 
-.calendar-table {
-	border: 1px solid ;
+
+/* Заголовок с датой*/
+.calendar-date {
+	font-size: 1.5em;
+}
+
+
+/* Листалка месяцев/переход на текущий месяц */
+.calendar-controls {
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 1.1em;
+	line-height: 1;
+	padding: 2px 0;
+	border: 1px solid #b9b9b9;
+	border-radius: 5px;
+	white-space: nowrap;
 }
 
 .calendar-controls-item {
 	display: inline-block;
 	cursor: pointer;
+	vertical-align: middle;
+	padding: 0 10px;
+}
+
+.calendar-controls-today {
+	padding: 0 8px;
+	border-color: #b9b9b9;
+	border-width: 0 1px;
+	border-style: solid;
+}
+
+
+/* Таблица календаря */
+.calendar-table {
+	width: 100%;
+	margin-top: 1em;
+	border-collapse: collapse;
+	font-size: 0.95em;
+}
+
+.calendar-item {
+	width: 14.28%;
+	height: 100px;
+	vertical-align: top;
+	padding: 2px 5px;
+	border: 1px solid #cccccc;
+}
+
+.calendar-item-title {
+	text-align: right;
+	color: #8c8c8c;
+}
+
+.calendar-item-weekend {
+	background: #fbfbfb;
 }
 
 .calendar-item-today {

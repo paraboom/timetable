@@ -1,0 +1,21 @@
+<div class="calendar">
+	<div class="calendar-date">
+		{{month}}&nbsp;{{year}}
+	</div>
+	<div class="calendar-controls">
+		<span class="calendar-controls-item icon-caret-left"></span><span class="calendar-controls-item calendar-controls-today">Текущий месяц</span><span class="calendar-controls-item icon-caret-right"></span>
+	</div>
+	<table class="calendar-table">
+		<tbody>
+			{{#each rows}}
+				<tr>
+					{{#each this}}
+						<td class="calendar-item{{#if today}} calendar-item-today{{/if}}{{#if isWeekend}} calendar-item-weekend{{/if}}" data-id="{{id}}">
+							<div class="calendar-item-title">{{value}}</div>
+						</td>
+					{{/each}}
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>

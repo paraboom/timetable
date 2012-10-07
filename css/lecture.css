@@ -1,0 +1,34 @@
+.lecture {
+	position: relative;
+	padding: 1px 0 1px 20px;
+	margin: 0 -5px 4px -5px;
+	cursor: pointer;
+}
+
+.lecture-icon {
+	position: absolute;
+	left: 5px;
+	top: 1px;
+	color: #B8DAA0;
+}
+
+.lecture-active-mode {
+	background: #d9d9d9;
+}
+
+.lecture-active-mode .lecture-icon {
+	color: #54ae1d;
+}
+
+.lecture-edit-mode {
+	background: #eab3bb;
+}
+
+.lecture-edit-mode .lecture-icon {
+	color: #c52638;
+}
+
+.lecture-edit-mode-input {
+	width: 90%;
+	border: 1px solid #000;
+}
