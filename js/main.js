@@ -2,9 +2,20 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 
 	var calendar;
 
-	calendar = new Calendar({
-		'name': 'Расписание'
-	});
+	var storedData = JSON.parse(localStorage['1349785335253']);
+	if (storedData.items) {
+		$.each(storedData.items, function(key, lectures){
+			var tmp_obj = [];
+
+			for (var i = 0, l = lectures.length; i<l; i++) {
+				tmp_obj.push(new Lecture(lectures[i]));
+			}
+
+			storedData.items[key] = tmp_obj;
+		});
+	}
+
+	calendar = new Calendar(storedData);
 
 	function findLecture(parent, id) {
 		if (!calendar.items[parent]) return false;
@@ -23,13 +34,15 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 
 		container.on('dblclick', '.calendar-item', function(evt){
 			Lecture.dialog($(this), function(data){
-				calendar.addItem(data.id, new Lecture(data));
+				calendar.addItem(data.parent_id, new Lecture(data));
 			});
 		});
 
 		container.on('click', '.lecture', function(evt){
 			var el = $(this),
 				lecture = findLecture(el.closest('.calendar-item').data('id'), el.data('id'));
+
+			console.log(el);
 
 			calendar.itemsCollection(function(item){
 				item.activate(false);
@@ -38,6 +51,10 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 			if (lecture) {
 				lecture.activate(true);
 			}
+		});
+
+		calendar.on('save', function(evt, data){
+			localStorage[data.id] = JSON.stringify(data);
 		});
 
 

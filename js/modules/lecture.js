@@ -5,17 +5,27 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 	 * @param {Object} obj Объект инициализации
 	 */
 	var Lecture = function(obj){
+		console.log(obj);
 		this.title = obj.title || 'Без названия';
 
-		this.id = new Date().valueOf();
+		this.id = obj.id || new Date().valueOf();
 
 		this.$el = $(this.render());
+
+		console.log(this.id);
 	};
 
 	/**
 	 * Методы лекций
 	 */
 	Lecture.prototype = {
+		toJSON: function(){
+			return {
+				title: this.title,
+				id: this.id
+			};
+		},
+
 		render: function(){
 			return lectureViewTmpl({
 				'title': this.title,
@@ -48,7 +58,7 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 					if ((evt.which && evt.which == 13) || !evt.which)  {
 						if (callback && $.isFunction(callback)) {
 							callback({
-								'id': $(this).closest('.lecture').data('id'),
+								'parent_id': $(this).closest('.lecture').data('id'),
 								'title': $(this).val()
 							});
 						}
@@ -61,6 +71,10 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 			parent.append($el);
 			$el.find('input').val('').focus();
 		};
+	}();
+
+	Lecture.editor = function(){
+		var $el;
 	}();
 
 	return Lecture;

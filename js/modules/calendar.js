@@ -18,6 +18,20 @@ define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
 			10: 'Ноябрь',
 			11: 'Декабрь'
 		},
+		monthNamesGenitive: {
+			0: 'января',
+			1: 'февраля',
+			2: 'марта',
+			3: 'апреля',
+			4: 'мая',
+			5: 'июня',
+			6: 'июля',
+			7: 'августа',
+			8: 'ментября',
+			9: 'октября',
+			10: 'ноября',
+			11: 'декабря'
+		},
 		dayNames: [
 			'Воскресенье',
 			'Понедельник',
@@ -43,14 +57,18 @@ define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
 	 * @param {Object} obj Настройки календаря
 	 */
 	var Calendar = function(obj){
+		if (!obj) obj = {};
 		var that = this;
+
+		this.id = obj.id || new Date().valueOf();
+		this.eventDispatcher = $({});
 
 		this.name = obj.name;
 		this.month = (obj.month || obj.month === 0) ? obj.month : new Date().getMonth();
 		this.year = obj.year || new Date().getFullYear();
 
 		// Хранилище лекций
-		this.items = {};
+		this.items = obj.items || {};
 
 		this.$el = $(this.render());
 
@@ -70,6 +88,39 @@ define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
 	};
 
 	Calendar.prototype = {
+
+		/**
+		 * Возвращем календарь в виде JSON
+		 * @return {Object} JSON
+		 */
+		toJSON: function(){
+			var obj = {
+				id: this.id,
+				name: this.name,
+				month: this.month,
+				year: this.year
+			};
+
+			$.each(this.items, function(key, lectures){
+				if (!obj.items) obj.items = {};
+
+				obj.items[key] = [];
+				for (var i = 0, l = lectures.length; i<l; i++) {
+					obj.items[key].push(lectures[i].toJSON());
+				}
+			});
+			return obj;
+		},
+
+		/**
+		 * Подписывание на события
+		 * @param  {String}   eventType Тип события
+		 * @param  {Function} callback  Callback
+		 */
+		on: function(eventType, callback){
+			this.eventDispatcher.on(eventType, callback);
+		},
+
 		/**
 		 * Добавляем новый элемент в календарь
 		 * @param {String} targetId ID даты
@@ -81,6 +132,8 @@ define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
 			}
 			this.items[targetId].push(item);
 			this.$el.find('td[data-id=' + targetId + ']').append(item.show());
+			// дергаем событие, что состояние календаря изменилось
+			this.eventDispatcher.trigger('save', this.toJSON());
 		},
 
 		/**
@@ -149,7 +202,10 @@ define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
 					isWeekend: (dayNumber === 0 || dayNumber === 6)
 				};
 				// проверяем сегодняшняя ли это дата
-				if (tmp_date.valueOf() == today.valueOf()) tmp_obj.today = true;
+				if (tmp_date.valueOf() == today.valueOf()) {
+					tmp_obj.today = true;
+					tmp_obj.value += ' ' + helper.monthNamesGenitive[month];
+				}
 
 				tmp[cnt].push(tmp_obj);
 
