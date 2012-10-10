@@ -5,14 +5,11 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 	 * @param {Object} obj Объект инициализации
 	 */
 	var Lecture = function(obj){
-		console.log(obj);
 		this.title = obj.title || 'Без названия';
 
 		this.id = obj.id || new Date().valueOf();
 
 		this.$el = $(this.render());
-
-		console.log(this.id);
 	};
 
 	/**

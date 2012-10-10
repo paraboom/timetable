@@ -226,23 +226,23 @@ define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
 								}));
 
 			// Вставляем лекции
-			for (var key in this.items) {
+			$.each(this.items, function(key, items){
 				var item = calendarHtml.find('.calendar-item[data-id=' + key + ']');
-				for (i = 0, l = this.items[key].length; i<l; i++) {
-					item.append(this.items[key][i].show());
-				}
-			}
+				$.each(items, function(i, itm){
+					item.append(itm.show());
+				});
+			});
 
 			return calendarHtml;
 		},
 
 		// Сделать что-нибудь с коллекцией лекций
 		itemsCollection: function(callback){
-			for (var key in this.items) {
-				for (i = 0, l = this.items[key].length; i<l; i++) {
-					callback(this.items[key][i]);
-				}
-			}
+			$.each(this.items, function(key, items){
+				$.each(items, function(i, item){
+					callback(item);
+				});
+			});
 		},
 
 		show: function(){
