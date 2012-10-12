@@ -1,4 +1,4 @@
-define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
+define(['jquery', 'hbs!templates/lecture', 'hbs!templates/lectureEditor'], function($, lectureViewTmpl, lectureEditorTmpl){
 
 	/**
 	 * Конструктор лекции
@@ -40,6 +40,10 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 
 		activate: function(trigger){
 			this.$el.toggleClass('lecture-active-mode', !!trigger);
+		},
+
+		editor: function(){
+			console.log('editor')
 		}
 	};
 
@@ -68,10 +72,6 @@ define(['jquery', 'hbs!templates/lecture'], function($, lectureViewTmpl){
 			parent.append($el);
 			$el.find('input').val('').focus();
 		};
-	}();
-
-	Lecture.editor = function(){
-		var $el;
 	}();
 
 	return Lecture;

@@ -42,14 +42,22 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 			var el = $(this),
 				lecture = findLecture(el.closest('.calendar-item').data('id'), el.data('id'));
 
-			console.log(el);
-
 			calendar.itemsCollection(function(item){
 				item.activate(false);
 			});
 
 			if (lecture) {
 				lecture.activate(true);
+			}
+		});
+
+		container.on('dblclick', '.lecture', function(evt){
+			evt.stopPropagation();
+			var el = $(this),
+				lecture = findLecture(el.closest('.calendar-item').data('id'), el.data('id'));
+
+			if (lecture) {
+				lecture.editor();
 			}
 		});
 
