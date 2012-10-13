@@ -1,4 +1,6 @@
-define(['jquery', 'hbs!templates/calendar'], function($, calendarTmpl){
+define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Handlebars, calendarTmpl){
+
+	calendarTmpl = Handlebars.compile(calendarTmpl);
 
 	var helper = {
 		getDaysInMonth: function(year, month){

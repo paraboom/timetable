@@ -1,4 +1,7 @@
-define(['jquery', 'hbs!templates/lecture', 'hbs!templates/lectureEditor'], function($, lectureViewTmpl, lectureEditorTmpl){
+define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates/lectureEditor.html'], function($, Handlebars, lectureViewTmpl, lectureEditorTmpl){
+
+	lectureViewTmpl = Handlebars.compile(lectureViewTmpl);
+	lectureEditorTmpl = Handlebars.compile(lectureEditorTmpl);
 
 	/**
 	 * Конструктор лекции
