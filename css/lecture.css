@@ -32,3 +32,21 @@
 	width: 90%;
 	border: 1px solid #000;
 }
+
+.lecture-editor {
+	display: none;
+	position: absolute;
+	background: #eeeeee;
+	background: rgba(238,238,238,0.95);
+	top: 50px;
+	left: 100px;
+	padding: 20px;
+	border: 1px solid #bebebe;
+	border-radius: 8px;
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.35);
+	font-size: 0.95em;
+}
+
+.lecture-editor-active {
+	display: block;
+}

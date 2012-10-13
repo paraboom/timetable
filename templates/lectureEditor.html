@@ -1,1 +1,18 @@
-<div>asdf</div>
+<div class="lecture-editor-content">
+	<div class="lecture-editor-title">
+		<span class="lecture-editor-value">{{title}}</span>
+	</div>
+	{{#each attributes}}
+		<div class="lecture-editor-item" data-key="{{key}}">
+			<div class="lecture-editor-label">{{label}}</div>
+			<div class="lecture-editor-value">{{value}}</div>
+		</div>
+	{{/each}}
+	{{#if buttons}}
+		<div class="lecture-editor-buttons">
+			{{#each buttons}}
+				<button class="lecture-editor-button" value="{{value}}">{{text}}</button>
+			{{/each}}
+		</div>
+	{{/if}}
+</div>
