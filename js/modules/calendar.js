@@ -1,6 +1,7 @@
-define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Handlebars, calendarTmpl){
+define(['jquery', 'handlebars', 'text!/templates/calendar.html', 'text!/templates/calendarPrint.html'], function($, Handlebars, calendarTmpl, calendarPrintTmpl){
 
 	calendarTmpl = Handlebars.compile(calendarTmpl);
+	calendarPrintTmpl = Handlebars.compile(calendarPrintTmpl);
 
 	var helper = {
 		getDaysInMonth: function(year, month){
@@ -217,10 +218,10 @@ define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Ha
 
 				// информацию о каждом дне храним в объекте
 				var tmp_obj = {
-					id: 'c' + year + month + tmp_date.getDate(),
+					id: tmp_date.valueOf(),
 					// в первую строку впишем название дней недели
 					value: (cnt === 0) ? helper.dayNamesShort[dayNumber] + ', ' + tmp_date.getDate() : tmp_date.getDate(),
-					isWeekend: (dayNumber === 0 || dayNumber === 6)
+					isWeekend: (dayNumber === 0 || dayNumber === 6),
 				};
 				// проверяем сегодняшняя ли это дата
 				if (tmp_date.valueOf() == today.valueOf()) {
@@ -266,6 +267,7 @@ define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Ha
 			});
 		},
 
+		// просто сохраняем календарь
 		save: function(){
 			// дергаем событие, что состояние календаря изменилось
 			this.eventDispatcher.trigger('save', this.toJSON());
@@ -273,6 +275,37 @@ define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Ha
 
 		show: function(){
 			return this.$el;
+		},
+
+		// показать версию для печати
+		showPrint: function(){
+			var data = [];
+
+			function leadingZero(num) {
+				return (num < 10) ? '0' + num : num;
+			}
+
+			$.each(this.items, function(key, items){
+				var date = new Date(parseInt(key, 10));
+
+				date = leadingZero(date.getDate()) + '.' + leadingZero(date.getMonth() + 1) + ' ' + helper.dayNamesShort[date.getDay()];
+				
+				$.each(items, function(i, item){
+					data.push({
+						date: date,
+						title: item.title,
+						actor: item.attributes.actor || 'Нет лектора'
+					});
+				});
+			});
+
+			if (!this.$el.find('.calendar-print').length) {
+				$(calendarPrintTmpl({'items': data})).appendTo(this.$el);
+			} else {
+				this.$el.find('.calendar-print').replaceWith(calendarPrintTmpl({'items': data}));
+			}
+
+			window.print();
 		}
 	};
 

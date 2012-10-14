@@ -34,6 +34,11 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 		var container = $('.calendar-container');
 		container.append(calendar.show());
 
+		container.on('click', '.calendar-printversion', function(evt){
+			evt.preventDefault();
+			calendar.showPrint();
+		});
+
 		container.on('dblclick', '.calendar-item', function(evt){
 			Lecture.dialog($(this), function(data){
 				calendar.addItem(data.parent_id, new Lecture(data));
