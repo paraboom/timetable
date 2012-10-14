@@ -1,9 +1,9 @@
 requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calendar, Lecture){
 
-	var calendar;
+	var storedData = localStorage['shriCalendar'] || {};
 
-	if (localStorage['1349785335253']) {
-		var storedData = JSON.parse(localStorage['1349785335253']);
+	if (!$.isEmptyObject(storedData)) {
+		storedData = JSON.parse(storedData);
 		if (storedData.items) {
 			$.each(storedData.items, function(key, lectures){
 				var tmp_obj = [];
@@ -17,7 +17,7 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 		}
 	}
 
-	calendar = new Calendar(storedData || {});
+	var calendar = new Calendar(storedData || {});
 
 	function findLecture(parent, id) {
 		if (!calendar.items[parent]) return false;
@@ -64,7 +64,7 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 		});
 
 		calendar.on('save', function(evt, data){
-			localStorage[data.id] = JSON.stringify(data);
+			localStorage['shriCalendar'] = JSON.stringify(data);
 		});
 
 		Lecture.editor.on('lectureDelete', function(evt, lecture){
