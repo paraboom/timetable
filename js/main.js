@@ -2,20 +2,22 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 
 	var calendar;
 
-	var storedData = JSON.parse(localStorage['1349785335253']);
-	if (storedData.items) {
-		$.each(storedData.items, function(key, lectures){
-			var tmp_obj = [];
+	if (localStorage['1349785335253']) {
+		var storedData = JSON.parse(localStorage['1349785335253']);
+		if (storedData.items) {
+			$.each(storedData.items, function(key, lectures){
+				var tmp_obj = [];
 
-			for (var i = 0, l = lectures.length; i<l; i++) {
-				tmp_obj.push(new Lecture(lectures[i]));
-			}
+				for (var i = 0, l = lectures.length; i<l; i++) {
+					tmp_obj.push(new Lecture(lectures[i]));
+				}
 
-			storedData.items[key] = tmp_obj;
-		});
+				storedData.items[key] = tmp_obj;
+			});
+		}
 	}
 
-	calendar = new Calendar(storedData);
+	calendar = new Calendar(storedData || {});
 
 	function findLecture(parent, id) {
 		if (!calendar.items[parent]) return false;
@@ -65,6 +67,10 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 			localStorage[data.id] = JSON.stringify(data);
 		});
 
+		Lecture.editor.on('lectureDelete', function(evt, lecture){
+			var targetId = lecture.$el.closest('.calendar-item').data('id');
+			calendar.removeItem(targetId, lecture);
+		});
 
 	});
 });

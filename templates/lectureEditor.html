@@ -1,11 +1,13 @@
 <div class="lecture-editor-content">
-	<div class="lecture-editor-title">
+	<div class="lecture-editor-title lecture-editor-item">
 		<span class="lecture-editor-value">{{title}}</span>
+		<input class="lecture-editor-value-input" name="title" type="text" value="{{title}}" />
 	</div>
 	{{#each attributes}}
-		<div class="lecture-editor-item" data-key="{{key}}">
+		<div class="lecture-editor-item cf" data-key="{{key}}">
 			<div class="lecture-editor-label">{{label}}</div>
 			<div class="lecture-editor-value">{{value}}</div>
+			<input class="lecture-editor-value-input" name="{{key}}" type="text" value="{{value}}" />
 		</div>
 	{{/each}}
 	{{#if buttons}}

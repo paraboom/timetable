@@ -3,7 +3,12 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 	lectureViewTmpl = Handlebars.compile(lectureViewTmpl);
 	lectureEditorTmpl = Handlebars.compile(lectureEditorTmpl);
 
-
+	/**
+	 * Не очень хорошо расширять стандартные прототипы, но когда очень хочется - можно
+	 */
+	String.prototype.capitalize = function() {
+		return this.charAt(0).toUpperCase() + this.slice(1);
+	};
 
 	/**
 	 * Конструктор лекции
@@ -50,10 +55,15 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 		},
 
 		editor: function(){
-			var data = Lecture.editor.getData(this);
-			var editor = Lecture.editor.getEl().html(lectureEditorTmpl(data)).toggleClass('lecture-editor-active', true);
+			var editor = Lecture.editor.getEl(this);
+		},
 
-			editor.offset({left: this.$el.offset().left + this.$el.width()});
+		destroy: function(){
+			this.title = null;
+			this.id = null;
+			this.attributes = null;
+			this.$el.remove();
+			this.$el = null;
 		}
 	};
 
@@ -109,10 +119,16 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 					'value': 'done',
 					'text': 'Ок'
 				}
-			];
+			],
+			eventDispatcher = $({}),
+			currentLecture;
 
 		return {
-			getEl: function(){
+			getEl: function(lecture){
+				var that = this;
+
+				currentLecture = lecture;
+
 				if (!$el) {
 					$el = $('<div class="lecture-editor"></div>').appendTo('body');
 
@@ -120,23 +136,66 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 						evt.stopPropagation();
 					});
 
+					$el.on('click', '.lecture-editor-value', function(){
+						$(this)
+							.closest('.lecture-editor-item')
+							.toggleClass('lecture-editor-item-active', true)
+							.find('.lecture-editor-value-input').focus();
+					});
+
+					$el.on('blur', '.lecture-editor-value-input', function(){
+						var input = $(this),
+							parent = input.closest('.lecture-editor-item');
+
+						parent
+							.find('.lecture-editor-value')
+							.text(input.val())
+							.end()
+							.toggleClass('lecture-editor-item-active', false);
+					});
+
+					$el.on('click', '.lecture-editor-button', function(){
+						that['button' + $(this).val().capitalize()](currentLecture);
+					});
+
 					$('body').click(function(){
 						$el.toggleClass('lecture-editor-active', false);
 					});
 				}
 
-				return $el;
+				$el.css({left: lecture.$el.offset().left + lecture.$el.width()});
+
+				return $el
+					.html(lectureEditorTmpl(Lecture.editor.getData(lecture)))
+					.toggleClass('lecture-editor-active', true);
 			},
 
 			getData: function(lecture){
 				var data = {};
 				data.title = lecture.title;
 				data.attributes = $.map($.extend(emptyAttrs, lecture.attributes), function(obj, key){
+					if (key == 'optional') {
+						obj.value = (obj.value) ? 'да' : 'нет';
+					}
 					return $.extend({}, {'key': key}, obj);
 				});
 				data.buttons = defaultButtons;
 
 				return data;
+			},
+
+			on: function(eventType, callback){
+				eventDispatcher.on(eventType, callback);
+			},
+
+			buttonDelete: function(lecture){
+				$el.toggleClass('lecture-editor-active', false);
+				eventDispatcher.trigger('lectureDelete', lecture);
+			},
+
+			buttonDone: function(lecture){
+				$el.toggleClass('lecture-editor-active', false);
+				console.log('Done');
 			}
 		};
 	}();

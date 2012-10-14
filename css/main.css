@@ -11,6 +11,19 @@ body {
 	visibility: hidden;
 }
 
+/* Clearfix */
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
+.cf {
+    *zoom: 1;
+}
+
 #cal {
 	width: 80%;
 	margin: 0 auto;

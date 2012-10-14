@@ -139,6 +139,26 @@ define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Ha
 		},
 
 		/**
+		 * Удаляем элемент из календаря
+		 * @param  {String} targetId ID даты
+		 * @param  {Lecture} removeItem     Лекция
+		 */
+		removeItem: function(targetId, removeItem) {
+			var items = this.items[targetId],
+				itemToDelete;
+			$.each(items, function(i, item){
+				if (removeItem.id == item.id) {
+					itemToDelete = i;
+					item.destroy();
+				}
+			});
+
+			items.splice(itemToDelete, 1);
+			// дергаем событие, что состояние календаря изменилось
+			this.eventDispatcher.trigger('save', this.toJSON());
+		},
+
+		/**
 		 * Показывает календарь за предыдущий месяц
 		 */
 		prevMonth: function(){

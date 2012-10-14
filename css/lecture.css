@@ -40,7 +40,7 @@
 	background: rgba(238,238,238,0.95);
 	top: 50px;
 	left: 100px;
-	padding: 20px;
+	padding: 10px 20px;
 	border: 1px solid #bebebe;
 	border-radius: 8px;
 	box-shadow: 1px 1px 10px rgba(0,0,0,0.35);
@@ -49,4 +49,65 @@
 
 .lecture-editor-active {
 	display: block;
+}
+
+.lecture-editor-title {
+	margin: 0 -20px 10px -20px;
+	padding: 0 20px 5px 20px;
+	color: #02396d;
+	font-size: 1.25em;
+	font-weight: bold;
+	border-bottom: 1px solid #ccc;
+}
+
+.lecture-editor-value,
+.lecture-editor-value-input {
+	width: 10em;
+	margin: 1px 1px 1px 10em;
+	padding: 1px;
+	height: 1em;
+	line-height: 1;
+}
+
+.lecture-editor-value-input {
+	display: none;
+	border: 1px solid #ccc;
+}
+
+.lecture-editor-item-active .lecture-editor-value-input {
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	left: 10em;
+}
+
+.lecture-editor-item-active .lecture-editor-value {
+	display: none;
+}
+
+.lecture-editor-title .lecture-editor-value {
+	margin: 1px;
+}
+
+.lecture-editor-title .lecture-editor-value-input {
+	left: auto;
+}
+
+.lecture-editor-item {
+	position: relative;
+	margin: 0 0 0.25em 0;
+}
+
+.lecture-editor-label {
+	float: left;
+	width: 9em;
+	margin: 0 -100% 0 0;
+	font-weight: bold;
+	color: #7e7e7e;
+	text-align: right;
+}
+
+.lecture-editor-buttons {
+	margin-top: 1.5em;
+	text-align: right;
 }
