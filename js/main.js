@@ -72,5 +72,9 @@ requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calenda
 			calendar.removeItem(targetId, lecture);
 		});
 
+		Lecture.editor.on('lectureSave', function(evt, lecture){
+			calendar.save();
+		});
+
 	});
 });

@@ -31,7 +31,8 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 		toJSON: function(){
 			return {
 				title: this.title,
-				id: this.id
+				id: this.id,
+				attributes: this.attributes
 			};
 		},
 
@@ -56,6 +57,19 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 
 		editor: function(){
 			var editor = Lecture.editor.getEl(this);
+		},
+
+		save: function(data){
+			var that = this;
+
+			that.title = data.title;
+			delete data.title;
+
+			$.each(data, function(key, value){
+				that.attributes[key] = value;
+			});
+
+			that.$el.find('.lecture-title').text(that.title);
 		},
 
 		destroy: function(){
@@ -171,9 +185,15 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 			},
 
 			getData: function(lecture){
+
+				var values = {};
+				$.each(lecture.attributes, function(key, value){
+					values[key] = {'value': value};
+				});
+
 				var data = {};
 				data.title = lecture.title;
-				data.attributes = $.map($.extend(emptyAttrs, lecture.attributes), function(obj, key){
+				data.attributes = $.map($.extend(true, emptyAttrs, values), function(obj, key){
 					if (key == 'optional') {
 						obj.value = (obj.value) ? 'да' : 'нет';
 					}
@@ -195,7 +215,13 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 
 			buttonDone: function(lecture){
 				$el.toggleClass('lecture-editor-active', false);
-				console.log('Done');
+				var obj = {};
+				$el.find('.lecture-editor-value-input').each(function(){
+					obj[$(this).attr('name')] = $(this).val();
+				});
+
+				lecture.save(obj);
+				eventDispatcher.trigger('lectureSave', lecture);
 			}
 		};
 	}();

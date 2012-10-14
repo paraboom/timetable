@@ -90,7 +90,6 @@ define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Ha
 	};
 
 	Calendar.prototype = {
-
 		/**
 		 * Возвращем календарь в виде JSON
 		 * @return {Object} JSON
@@ -265,6 +264,11 @@ define(['jquery', 'handlebars', 'text!/templates/calendar.html'], function($, Ha
 					callback(item);
 				});
 			});
+		},
+
+		save: function(){
+			// дергаем событие, что состояние календаря изменилось
+			this.eventDispatcher.trigger('save', this.toJSON());
 		},
 
 		show: function(){
