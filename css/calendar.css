@@ -1,0 +1,120 @@
+.calendar-container {
+	position: relative;
+	min-width: 1000px;
+}
+
+
+/* Заголовок с датой*/
+.calendar-date {
+	font-size: 1.5em;
+}
+
+
+/* Ссылка на версию для печати */
+.calendar-printversion {
+	position: absolute;
+	left: 50%;
+	margin-left: -4.75em;
+	top: 0.5em;
+	display: inline-block;
+	text-decoration: none;
+	color: #2492F2;
+	border-bottom: 1px dotted #2492F2;
+}
+
+
+/* Листалка месяцев/переход на текущий месяц */
+.calendar-controls {
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 1.1em;
+	line-height: 1;
+	padding: 2px 0;
+	border: 1px solid #b9b9b9;
+	border-radius: 5px;
+	white-space: nowrap;
+}
+
+.calendar-controls-item {
+	display: inline-block;
+	cursor: pointer;
+	vertical-align: middle;
+	padding: 0 10px;
+}
+
+.calendar-controls-today {
+	padding: 0 8px;
+	border-color: #b9b9b9;
+	border-width: 0 1px;
+	border-style: solid;
+}
+
+
+/* Таблица календаря */
+.calendar-table {
+	width: 100%;
+	margin-top: 1em;
+	border-collapse: collapse;
+	font-size: 0.95em;
+}
+
+.calendar-item {
+	width: 14.28%;
+	height: 100px;
+	vertical-align: top;
+	padding: 2px 5px;
+	border: 1px solid #cccccc;
+}
+
+.calendar-item-title {
+	text-align: right;
+	color: #8c8c8c;
+}
+
+.calendar-item-weekend {
+	background: #fbfbfb;
+}
+
+.calendar-item-today {
+	background: #e9eff7;
+}
+
+.calendar-item-today .calendar-item-title {
+	color: #2492f2;
+	font-weight: bold;
+}
+
+/* Печатная версия календаря */
+
+.calendar-print {
+	display: none;
+}
+
+@media print {
+	.calendar-date,
+	.calendar-printversion,
+	.calendar-controls,
+	.calendar-table {
+		display: none;
+	}
+
+	.calendar-print {
+		display: block;
+		margin: 0 auto;
+	}
+
+	.calendar-print-table {
+		width: 90%;
+	}
+
+	.calendar-print-table th {
+		padding: 0 0 0.5em 0;
+	}
+
+	.calendar-print-table td {
+		padding: 0.5em;
+		border: 1px solid #ccc;
+		border-collapse: collapse;
+	}
+}

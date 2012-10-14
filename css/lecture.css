@@ -1,0 +1,137 @@
+.lecture {
+	position: relative;
+	padding: 1px 0 1px 20px;
+	margin: 0 -5px 4px -5px;
+	cursor: pointer;
+}
+
+.lecture-icon {
+	position: absolute;
+	left: 5px;
+	top: 1px;
+	color: #B8DAA0;
+}
+
+.lecture-active-mode {
+	background: #d9d9d9;
+}
+
+.lecture-active-mode .lecture-icon {
+	color: #54ae1d;
+}
+
+.lecture-edit-mode {
+	background: #eab3bb;
+}
+
+.lecture-edit-mode .lecture-icon {
+	color: #c52638;
+}
+
+.lecture-edit-mode-input {
+	width: 90%;
+	border: 1px solid #000;
+}
+
+.lecture-editor {
+	display: none;
+	position: absolute;
+	margin-top: -75px;
+	background: #eeeeee;
+	padding: 10px 20px;
+	border: 1px solid #bebebe;
+	border-radius: 8px;
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.35);
+	font-size: 0.95em;
+}
+
+.lecture-editor:after {
+	content: '';
+	display: block;
+	position: absolute;
+	left: -6px;
+	top: 50%;
+	margin: -5px 0 0 0;
+	width: 10px;
+	height: 10px;
+	background: #eeeeee;
+	border-width: 0 0 1px 1px;
+	border-style: solid;
+	border-color: #bebebe;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.lecture-editor-right:after {
+	left: auto;
+	right: -6px;
+	border-width: 1px 1px 0 0;
+}
+
+.lecture-editor-active {
+	display: block;
+}
+
+.lecture-editor-title {
+	margin: 0 -20px 10px -20px;
+	padding: 0 20px 5px 20px;
+	color: #02396d;
+	font-size: 1.25em;
+	font-weight: bold;
+	border-bottom: 1px solid #ccc;
+}
+
+.lecture-editor-value,
+.lecture-editor-value-input {
+	width: 10em;
+	margin: 1px 1px 1px 10em;
+	padding: 1px;
+	height: 1em;
+	line-height: 1;
+}
+
+.lecture-editor-value-input {
+	display: none;
+	border: 1px solid #ccc;
+}
+
+.lecture-editor-item-active .lecture-editor-value-input {
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	left: 10em;
+}
+
+.lecture-editor-item-active .lecture-editor-value {
+	display: none;
+}
+
+.lecture-editor-title .lecture-editor-value {
+	margin: 1px;
+}
+
+.lecture-editor-title .lecture-editor-value-input {
+	left: auto;
+}
+
+.lecture-editor-item {
+	position: relative;
+	margin: 0 0 0.25em 0;
+}
+
+.lecture-editor-label {
+	float: left;
+	width: 9em;
+	margin: 0 -100% 0 0;
+	font-weight: bold;
+	color: #7e7e7e;
+	text-align: right;
+}
+
+.lecture-editor-buttons {
+	margin-top: 1.5em;
+	text-align: right;
+}

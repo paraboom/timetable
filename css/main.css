@@ -1,0 +1,30 @@
+@import url('/css/lecture.css');
+@import url('/css/calendar.css');
+
+body {
+	font-size: 16px;
+}
+
+.measurer {
+	position: absolute;
+	display: block;
+	visibility: hidden;
+}
+
+/* Clearfix */
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
+.cf {
+    *zoom: 1;
+}
+
+#cal {
+	width: 80%;
+	margin: 0 auto;
+}

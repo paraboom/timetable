@@ -1,0 +1,20 @@
+<div class="calendar-print">
+	<table class="calendar-print-table">
+		<thead>
+			<tr>
+				<th>Дата</th>
+				<th>Название</th>
+				<th>Лектор</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#each items}}
+			<tr>
+				<td>{{date}}</td>
+				<td>{{title}}</td>
+				<td>{{actor}}</td>
+			</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</div>
