@@ -36,15 +36,39 @@
 .lecture-editor {
 	display: none;
 	position: absolute;
+	margin-top: -75px;
 	background: #eeeeee;
-	background: rgba(238,238,238,0.95);
-	top: 50px;
-	left: 100px;
 	padding: 10px 20px;
 	border: 1px solid #bebebe;
 	border-radius: 8px;
 	box-shadow: 1px 1px 10px rgba(0,0,0,0.35);
 	font-size: 0.95em;
+}
+
+.lecture-editor:after {
+	content: '';
+	display: block;
+	position: absolute;
+	left: -6px;
+	top: 50%;
+	margin: -5px 0 0 0;
+	width: 10px;
+	height: 10px;
+	background: #eeeeee;
+	border-width: 0 0 1px 1px;
+	border-style: solid;
+	border-color: #bebebe;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.lecture-editor-right:after {
+	left: auto;
+	right: -6px;
+	border-width: 1px 1px 0 0;
 }
 
 .lecture-editor-active {

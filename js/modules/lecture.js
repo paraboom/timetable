@@ -110,6 +110,10 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 
 	Lecture.editor = function(){
 		var $el,
+			$container = $('.calendar-container'),
+			containerOffset = $container.offset(),
+			containerWidth = $container.width(),
+			containerHeight = $container.height(),
 			emptyAttrs = {
 				'time': {
 					'label': 'Время начала',
@@ -177,11 +181,27 @@ define(['jquery', 'handlebars', 'text!/templates/lecture.html', 'text!/templates
 					});
 				}
 
-				$el.css({left: lecture.$el.offset().left + lecture.$el.width()});
+				var lectureOffest = lecture.$el.offset();
 
-				return $el
+				$el
+					.css({
+						left: lectureOffest.left + lecture.$el.width(),
+						top: lectureOffest.top
+					})
 					.html(lectureEditorTmpl(Lecture.editor.getData(lecture)))
-					.toggleClass('lecture-editor-active', true);
+					.toggleClass('measurer', true)
+					.removeClass('lecture-editor-right');
+
+				// Эту проверку нужно как-то вынести отсюда, чтобы не завязываться на контейнер
+				if ($el.offset().left + $el.width() > containerOffset.left + containerWidth) {
+					$el.css({
+						left: lectureOffest.left - $el.outerWidth()
+					}).addClass('lecture-editor-right');
+				}
+
+				$el.toggleClass('measurer', false);
+
+				return $el.toggleClass('lecture-editor-active', true);
 			},
 
 			getData: function(lecture){
