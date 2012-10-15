@@ -1,4 +1,4 @@
-requirejs(['jquery', 'modules/calendar', 'modules/lecture'], function($, Calendar, Lecture){
+requirejs(['jquery', '../modules/calendar', '../modules/lecture'], function($, Calendar, Lecture){
 
 	var storedData = localStorage['shriCalendar'] || {};
 
